@@ -5,7 +5,7 @@
   "main": "index.js",
   "engines": {
     "node": "14.x"
-  }, 
+  },
   "scripts": {
     "test": "node index.js"
   },
@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "joi": "^13.1.0",

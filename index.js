@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const users = require('./routes/users');
+var cors = require('cors')
 require('dotenv').config()
 const app = express();
 
@@ -15,6 +16,7 @@ mongoose.connect(`mongodb+srv://beeyondteck:${process.env.MONGODB_PASSWORD}@clus
 
 
 // middlewares
+app.use(cors())
 app.use(express.json());
 app.use("/api/users", users);
 
