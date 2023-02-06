@@ -9,7 +9,7 @@ if(!process.env.JWT_PRIVATE_KEY){
   process.exit(1);
 }
 
-mongoose.connect("mongodb://localhost/forexbroker")
+mongoose.connect(`mongodb+srv://beeyondteck:${process.env.MONGODB_PASSWORD}@cluster0.01tqldg.mongodb.net/?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true})
   .then(() => console.log("Connected to MongoDB"))
   .catch((e) => console.log("Error connecting to MongoDB"))
 
