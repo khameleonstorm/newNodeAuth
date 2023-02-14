@@ -43,7 +43,9 @@ router.post('/signup', async (req, res) => {
   const { error } = validateUser(req.body)
   if(error) return res.status(400).send(error.details[0].message)
 
-  let user = await User.findOne({ email, username })
+  let user = await User.findOne({
+    $and: [{email}, {username}]
+  })
   if(user) return res.status(400).send("User already exists..")
 
   user = new User({ username, email, password })

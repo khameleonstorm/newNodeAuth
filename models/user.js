@@ -56,6 +56,7 @@ const  validateUser = (user) => {
     username: Joi.string().min(3).max(20).required(),
     email: Joi.string().min(5).max(225).email().required(),
     password: Joi.string().min(5).max(20).required(),
+    referral: Joi.string().min(3).max(20),
   }
 
   return Joi.validate(user, schema)
