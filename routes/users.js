@@ -39,14 +39,16 @@ router.post('/login', async(req, res) => {
 
 //create a new user
 router.post('/signup', async (req, res) => {
-  const {username, email, password} = req.body
+  const {username, email, password, referral} = req.body
   const { error } = validateUser(req.body)
   if(error) return res.status(400).send(error.details[0].message)
 
   let user = await User.findOne({ email, username })
   if(user) return res.status(400).send("User already exists..")
-  
+
   user = new User({ username, email, password })
+  
+  let referredBy = User.findOne({ referral })
 
   try{
     const salt = await bcrypt.genSalt(10)
@@ -54,6 +56,7 @@ router.post('/signup', async (req, res) => {
     user = await user.save()
     const token = await user.genAuthToken()
     res.header("x-auth-token", token).send(user)
+    referredBy.referralBonus = await referredBy.referralBonus + 1
   }
   catch(e){
     for(i in e.errors){

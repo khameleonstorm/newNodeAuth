@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema({
     default: 0,
     minLength: 0,
   },
+  referralBonus: {
+    type: Number,
+    default: 0,
+    minLength: 0,
+  },
   isAdmin: {
     type: Boolean,
     default: false,
