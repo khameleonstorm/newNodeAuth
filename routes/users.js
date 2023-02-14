@@ -57,9 +57,9 @@ router.post('/signup', async (req, res) => {
     user.password = await bcrypt.hash(password, salt)
     user = await user.save()
     const token = await user.genAuthToken()
+    referredBy.referralBonus ++
+    await referredBy.save()
     res.header("x-auth-token", token).send(user)
-    referredBy.referralBonus = await referredBy.referralBonus + 1
-    referredBy.save()
   }
   catch(e){
     for(i in e.errors){
