@@ -3,6 +3,21 @@ const express = require('express')
 const { User, validateUser, validateLogin } = require("../models/user")
 const router  = express.Router()
 
+// getting single user
+router.get('/:id', async(req, res) => {
+  let user = await User.findById(req.params.id)
+  if(!user) return res.status(400).send("user not found...")
+
+  res.send(user)
+})
+
+// getting all users
+router.get('/', async(req, res) => {
+  const users = await User.find()
+
+  res.send(users)
+})
+
 // login user
 router.post('/login', async(req, res) => {
   const { email, password } = req.body
@@ -16,7 +31,7 @@ router.post('/login', async(req, res) => {
   if(!validatePassword) return res.status(400).send("Invalid email or password...")
 
   const token = await user.genAuthToken()
-  res.send(token)
+  res.header("x-auth-token", token).send(user)
 })
 
 
@@ -28,7 +43,7 @@ router.post('/signup', async (req, res) => {
   const { error } = validateUser(req.body)
   if(error) return res.status(400).send(error.details[0].message)
 
-  let user = await User.findOne({ email })
+  let user = await User.findOne({ email, username })
   if(user) return res.status(400).send("User already exists..")
   
   user = new User({ username, email, password })
