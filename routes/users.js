@@ -47,7 +47,6 @@ router.post('/signup', async (req, res) => {
   if(user) return res.status(400).send("User already exists..")
 
   let referredBy = await User.findOne({ username: referral })
-  if(!referredBy) return res.status(400).send("Invalid referral code..")
 
   user = new User({ username, email, password })
 
