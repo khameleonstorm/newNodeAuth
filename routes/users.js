@@ -8,14 +8,14 @@ router.get('/:id', async(req, res) => {
   let user = await User.findById(req.params.id)
   if(!user) return res.status(400).send("user not found...")
 
-  res.send(user)
+   res.header("Access-Control-Allow-Origin", "*").send(user)
 })
 
 // getting all users
 router.get('/', async(req, res) => {
   const users = await User.find()
 
-  res.send(users)
+  res.header("Access-Control-Allow-Origin", "*").send(users)
 })
 
 // login user
@@ -31,7 +31,7 @@ router.post('/login', async(req, res) => {
   if(!validatePassword) return res.status(400).send("Invalid email or password...")
 
   const token = await user.genAuthToken()
-  res.header("x-auth-token", token).send(user)
+  res.header("Access-Control-Allow-Origin", "*").send(user)
 })
 
 
@@ -57,7 +57,7 @@ router.post('/signup', async (req, res) => {
     const token = await user.genAuthToken()
     referredBy.referralBonus ++
     referredBy = await referredBy.save()
-    res.header("x-auth-token", token).send(user)
+    res.header("Access-Control-Allow-Origin", "*").send(user)
   }
   catch(e){
     for(i in e.errors){
